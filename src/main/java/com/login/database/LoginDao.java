@@ -12,8 +12,6 @@ public class LoginDao {
 
     public boolean validate(LoginBean loginBean) throws ClassNotFoundException {
         boolean status = false;
-
-       // Class.forName("com.mysql.jdbc.Driver");
         try
 		{
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -25,26 +23,38 @@ public class LoginDao {
 		}
         try (Connection con = DriverManager.getConnection("jdbc:mysql:///demo", "root", "admin");
       
-            // Step 2:Create a statement using connection object
+            //Create a statement using connection object
             PreparedStatement preparedStatement = con
             .prepareStatement("select * from login where username = ? and password = ? ")) {
             preparedStatement.setString(1, loginBean.getUsername());
             preparedStatement.setString(2, loginBean.getPassword());
 
             System.out.println(preparedStatement);
-            ResultSet rs = preparedStatement.executeQuery();
-            status = rs.next();
+            
+            try(ResultSet rs = preparedStatement.executeQuery())
+            {
+            	status = rs.next();
+            }
+            catch(SQLException e)
+            {
+            	e.printStackTrace();
+            }
 
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) 
+        {
             // process sql exception
             printSQLException(e);
         }
         return status;
     }
 
-    private void printSQLException(SQLException ex) {
-        for (Throwable e: ex) {
-            if (e instanceof SQLException) {
+    private void printSQLException(SQLException ex) 
+    {
+        for (Throwable e: ex) 
+        {
+            if (e instanceof SQLException) 
+            {
                 e.printStackTrace(System.err);
                 System.err.println("SQLState: " + ((SQLException) e).getSQLState());
                 System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
