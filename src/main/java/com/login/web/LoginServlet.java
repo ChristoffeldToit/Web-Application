@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
         try {
             if (loginDao.validate(loginBean)) 
             {
-                response.sendRedirect("loginsuccess.html");
+                response.sendRedirect("home.html");
             } 
             else 
             {
