@@ -31,12 +31,16 @@ public class LoginServlet extends HttpServlet {
         loginBean.setPassword(password);
 
         try {
-            if (loginDao.validate(loginBean)) {
+            if (loginDao.validate(loginBean)) 
+            {
                 response.sendRedirect("loginsuccess.html");
-            } else {
+            } 
+            else 
+            {
                 //HttpSession session = request.getSession();
             }
-        } catch (ClassNotFoundException e) {
+        } 
+        catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
