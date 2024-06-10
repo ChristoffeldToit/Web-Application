@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.login.bean.RegisterBean;
-import com.login.database.LoginDao;
 import com.login.database.RegisterDao;
 
 
@@ -27,21 +26,24 @@ public class RegisterServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
-		String password = request.getParameter("paasword");
+		String password = request.getParameter("password");
 		RegisterBean registerBean = new RegisterBean();
 		registerBean.setUsername(username);
 		registerBean.setPassword(password);
 		
 		try 
 		{
-			if(registerDao.insertRegistration(registerBean)) 
-			{
-				response.sendRedirect("home.html");
-			}
-			else
-			{
-				//
-			}
+	        if (registerBean.isUsernameTaken(username)) 
+	        {
+	            request.setAttribute("errorMessage", "Username " + username + " is already taken");
+	            request.getRequestDispatcher("register.jsp").forward(request, response);
+	            System.out.println("Username " + username + " is already taken");
+	        } 
+	        else 
+	        {
+	            registerBean.insertRegistrationData(username, password);
+	            response.sendRedirect("home.html");
+	        }
 			
 		}
 		catch (ClassNotFoundException e) 

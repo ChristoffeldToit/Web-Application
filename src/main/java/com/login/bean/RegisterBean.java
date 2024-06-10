@@ -1,5 +1,6 @@
 package com.login.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 
@@ -36,13 +37,15 @@ public class RegisterBean implements Serializable {
         // Return true if the input is valid, false otherwise.
     }
     
-    public boolean isUsernameTaken(String username) throws ClassNotFoundException, SQLException {
+    public boolean isUsernameTaken(String username) throws ClassNotFoundException, SQLException, IOException {
         // Check if the username is already taken by querying the database
         // Return true if the username is taken, false otherwise.
-        return new RegisterDao().insertRegistration(this);
+    	return new RegisterDao().userTaken(username);
+    	
+    
     }
     
-    public void insertRegistrationData(String username, String password, String email) throws ClassNotFoundException, SQLException {
+    public void insertRegistrationData(String username, String password) throws ClassNotFoundException, SQLException {
         // Insert the registration data into the database
         new RegisterDao().insertRegistration(this);
     }
