@@ -81,7 +81,6 @@ public class RegisterDao  implements Serializable{
 			printSQLException(e);
 		}
 		return status;
-	
 	}
 
 	private void printSQLException(SQLException ex) {

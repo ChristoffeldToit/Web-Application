@@ -1,6 +1,11 @@
 package com.login.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.sql.SQLException;
+
+import com.login.database.LoginDao;
+import com.login.database.RegisterDao;
 
 public class LoginBean implements Serializable {
     /**
@@ -24,5 +29,13 @@ public class LoginBean implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public boolean isUsernameRegistered(String username, String password) throws ClassNotFoundException, SQLException, IOException {
+        // Check if the username is already taken by querying the database
+        // Return true if the username is taken, false otherwise.
+    	return new LoginDao().UsernameTaken(username, password);
+    	
+    
     }
 }
