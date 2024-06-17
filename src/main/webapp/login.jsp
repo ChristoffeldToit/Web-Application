@@ -11,6 +11,9 @@
 <body>
 	<main id="main-holder">
 		<h1 id="login-header">Login</h1>
+		<div id="login-header">
+			<p>${errorMessage}</p>
+		</div>
 
 		<form action="login" method="post" id="login-form">
 			<input type="text" name="username" id="username"
@@ -27,5 +30,4 @@
 
 	</main>
 </body>
-
 </html>

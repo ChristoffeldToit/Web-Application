@@ -32,6 +32,7 @@ public class LoginDao {
             preparedStatement.setString(2, loginBean.getPassword());
 
             System.out.println(preparedStatement);
+            // Execute the query and store the result in the ResultSet
             ResultSet rs = preparedStatement.executeQuery();
             status = rs.next();
 
@@ -40,6 +41,35 @@ public class LoginDao {
             printSQLException(e);
         }
         return status;
+    }
+    
+    public boolean UsernameTaken(String username, String password) throws SQLException, ClassNotFoundException {
+        boolean status = false;
+        // Establish a database connection
+		// Execute a query to check if the username exists in the database
+		// Set status based on the query result
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		try (Connection con = DriverManager.getConnection("jdbc:mysql:///demo", "root", "admin");
+		     PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) FROM LOGIN WHERE USERNAME = ? AND PASSWORD = ?");) 
+		{
+			// Set the value of the username parameter in the prepared statement
+		    ps.setString(1, username);
+		    ps.setString(2, password);
+		    // Execute the query and store the result in the ResultSet
+		    ResultSet rs = ps.executeQuery();
+		    // Check if the ResultSet has any rows
+		    if (rs.next()) {
+		        // If the count in the first column of the result is greater than 0, set status to true (username exists)
+		        status = rs.getInt(1) > 0;
+		    }
+		} 
+		catch (SQLException e) 
+		{
+			printSQLException(e);
+		}
+		return status;
+       
     }
 
     private void printSQLException(SQLException ex) {
